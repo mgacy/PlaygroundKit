@@ -19,22 +19,26 @@ open class BaseViewController : UIViewController {
     // MARK: - Subviews
 
     private lazy var barButton1: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressButton1(_:)))
+        let image = UIImage(systemName: "1.circle")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressButton1(_:)))
         return button
     }()
 
     private lazy var barButton2: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressButton2(_:)))
+        let image = UIImage(systemName: "2.circle")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressButton2(_:)))
         return button
     }()
 
     private lazy var barButton3: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didPressButton3(_:)))
+        let image = UIImage(systemName: "3.circle")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressButton3(_:)))
         return button
     }()
 
     private lazy var barButton4: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressButton4(_:)))
+        let image = UIImage(systemName: "4.circle")
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressButton4(_:)))
         return button
     }()
 
