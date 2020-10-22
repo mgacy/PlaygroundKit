@@ -32,6 +32,9 @@ public class SegmentComponentView<T>: UIView {
         }
     }
 
+    /// Spacing between `labelStack` and `segmentControl`
+    private let componentSpacing: CGFloat = 4.0
+
     // MARK: - Appearance
 
     public var title: String? {
@@ -82,14 +85,18 @@ public class SegmentComponentView<T>: UIView {
     }()
 
     override public var intrinsicContentSize: CGSize {
-        let labelWidth = labelStackView.intrinsicContentSize.width      // -1
-        let labelHeight = labelStackView.intrinsicContentSize.height    // -1
-        let segmentHeight = segmentControl.intrinsicContentSize.height  // 31
-        return CGSize(width: labelWidth, height: labelHeight + segmentHeight)
+        let labelWidth = titleLabel.intrinsicContentSize.width
+            + valueLabel.intrinsicContentSize.width + labelStackView.spacing
+        let labelHeight = max(titleLabel.intrinsicContentSize.height, valueLabel.intrinsicContentSize.height)
+        let segmentHeight = segmentControl.intrinsicContentSize.height
+        let width = max (labelWidth, segmentControl.intrinsicContentSize.width)
+        return CGSize(width: width + layoutMargins.width,
+                      height: labelHeight + segmentHeight + layoutMargins.height + componentSpacing)
     }
 
     // MARK: - Lifecycle
 
+    // TODO: add optional param for `selectedSegmentIndex: Int`?
     public convenience init?(segmentItems: [T], segmentTitles: [String]) {
         self.init(frame: CGRect.zero)
         self.segmentItems = segmentItems
@@ -115,7 +122,7 @@ public class SegmentComponentView<T>: UIView {
 
     private func configure() {
         addSubview(labelStackView)
-
+        //backgroundColor = .systemBackground
         // TESTING:
         //titleLabel.backgroundColor = .cyan
         //valueLabel.backgroundColor = .magenta
@@ -126,46 +133,45 @@ public class SegmentComponentView<T>: UIView {
     }
 
     private func setupConstraints() {
-        let spacing: CGFloat = 8.0
+        let guide = layoutMarginsGuide
         NSLayoutConstraint.activate([
             // labelStackView
-            labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-            labelStackView.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
-            labelStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing),
-
+            labelStackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            labelStackView.topAnchor.constraint(equalTo: guide.topAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             // segmentControl
-            segmentControl.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-            segmentControl.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: spacing),
-            segmentControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing)
+            segmentControl.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            segmentControl.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: componentSpacing),
+            segmentControl.trailingAnchor.constraint(equalTo: guide.trailingAnchor)
         ])
     }
-
+    /*
     // TODO: add relativeWidthContstraint
     // TODO: update constraint once set
     public var relativeTitleWidth: CGFloat = 0.5
 
     private func setupConstraints2() {
+        let guide = layoutMarginsGuide
         let spacing: CGFloat = 8.0
         NSLayoutConstraint.activate([
             // titleLabel
-             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
-             //titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing),
-             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: relativeTitleWidth, constant: -spacing),
-
+            titleLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: guide.topAnchor),
+            //titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing),
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: relativeTitleWidth, constant: -spacing),
             // valueLabel
-            //valueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
+            //valueLabel.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
-            valueLabel.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
-             valueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing),
+            valueLabel.topAnchor.constraint(equalTo: guide.topAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             // segmentControl
-            segmentControl.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
+            segmentControl.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             segmentControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
-            segmentControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing)
+            segmentControl.trailingAnchor.constraint(equalTo: guide.trailingAnchor)
         ])
     }
-
-    // MARK: - B
+    */
+    // MARK: - Actions
 
     @objc private func didChangeValue(_ sender: UISegmentedControl) {
         let idx = sender.selectedSegmentIndex

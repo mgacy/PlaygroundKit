@@ -8,6 +8,7 @@
 
 import UIKit
 
+//@available(iOS 13.0, *)
 public class SliderComponentView: UIView {
     public typealias ValueHandlerBlock = (Float) -> Void
 
@@ -47,6 +48,15 @@ public class SliderComponentView: UIView {
         }
     }
 
+    public var title: String? {
+        get {
+            return titleLabel.text
+        }
+        set {
+            titleLabel.text = newValue
+        }
+    }
+
     // MARK: Appearance
 
     public var labelColor: UIColor = .label {
@@ -58,6 +68,12 @@ public class SliderComponentView: UIView {
     // MARK: Subviews
 
     // TODO: Add cardView
+
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private let valueLabel: UILabel = {
         let label = UILabel()
@@ -75,8 +91,17 @@ public class SliderComponentView: UIView {
         return control
     }()
 
+    private lazy var labelStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
+        view.axis = .horizontal
+        view.distribution = .fillEqually // or .fill
+        view.spacing = UIStackView.spacingUseSystem
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [valueLabel, sliderControl])
+        let view = UIStackView(arrangedSubviews: [labelStack, sliderControl])
         view.axis = .vertical
         view.alignment = .fill
         view.distribution = .fillEqually
@@ -86,10 +111,19 @@ public class SliderComponentView: UIView {
     }()
 
     override public var intrinsicContentSize: CGSize {
-        return stackView.intrinsicContentSize
+        let labelWidth = titleLabel.intrinsicContentSize.width + valueLabel.intrinsicContentSize.width + labelStack.spacing
+        let labelHeight = max(titleLabel.intrinsicContentSize.height, valueLabel.intrinsicContentSize.height)
+        let sliderWidth = sliderControl.intrinsicContentSize.width
+        let sliderHeight = sliderControl.intrinsicContentSize.height
+        return CGSize(width: max(labelWidth, sliderWidth) + layoutMargins.width,
+                      height: labelHeight + sliderHeight + layoutMargins.height + stackView.spacing)
     }
 
     // MARK: Lifecycle
+
+    public convenience init(valueRange range: Float) {
+        self.init(frame: .zero, minimumValue: -range * 0.5, maximumValue: range * 0.5)
+    }
 
     public convenience init(minimumValue: Float = -10.0, maximumValue: Float = 10.0) {
         self.init(frame: CGRect.zero, minimumValue: minimumValue, maximumValue: maximumValue)
@@ -116,13 +150,12 @@ public class SliderComponentView: UIView {
     }
 
     private func setupConstraints() {
-        let inset: CGFloat = 8.0
-        //let guide = layoutMarginsGuide
+        let guide = layoutMarginsGuide
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: inset),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inset),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset)
+            stackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: guide.topAnchor),
+            stackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
         ])
     }
 

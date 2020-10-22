@@ -1,5 +1,5 @@
 //
-//  X.swift
+//  Logger.swift
 //  PlaygroundKit
 //
 //  Created by Mathew Gacy on 10/7/20.
@@ -11,6 +11,8 @@ public struct Logger: LoggingType {
 
     public static var formatter: Formatter = { "\($2):\($3) - \($0)" } // "function:line - message"
     //public static var formatter: Formatter = { "\($1).\($2):\($3) - \($0)" } // "file.function:line - message"
+
+    //public init() {}
 
     // MARK: LoggingType
 
