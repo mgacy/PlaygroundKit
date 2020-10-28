@@ -1,5 +1,5 @@
 //
-//  X.swift
+//  CellConfigurable.swift
 //  PlaygroundKit
 //
 //  Created by Mathew Gacy on 10/7/20.
