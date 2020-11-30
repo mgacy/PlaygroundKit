@@ -38,12 +38,12 @@ open class BaseScrollViewController: BaseViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         self.view = view
-        setupConstraints()
+        setupScrollViewConstraints()
     }
 
     // MARK: - View Methods
 
-    open func setupConstraints() {
+    open func setupScrollViewConstraints() {
         //let guide = view.safeAreaLayoutGuide
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

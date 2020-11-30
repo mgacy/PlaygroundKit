@@ -52,7 +52,7 @@ open class BaseViewController : UIViewController {
     // MARK: - View Methods
 
     open func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationItem.leftBarButtonItems = [barButton1, barButton2]
         navigationItem.rightBarButtonItems = [barButton4, barButton3]
         setupNavBarActions()
