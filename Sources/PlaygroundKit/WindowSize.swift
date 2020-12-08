@@ -13,7 +13,7 @@ public enum WindowSize {
     case iPhoneX
     case iPhoneMax
     case iPad
-    case iPadPortraint
+    case iPadLandscape
 
     // See:
     // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html
@@ -23,7 +23,7 @@ public enum WindowSize {
         case .iPhoneX: return CGSize(width: 375, height: 812)
         case .iPhoneMax: return CGSize(width: 414, height: 896)
         case .iPad: return CGSize(width: 768, height: 1024)
-        case .iPadPortraint: return CGSize(width: 1024, height: 768)
+        case .iPadLandscape: return CGSize(width: 1024, height: 768)
         }
     }
 }
