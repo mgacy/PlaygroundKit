@@ -1,0 +1,7 @@
+Update SegmentComponentView:
+	- When initializing with segments, titles, add optional param to set initial value
+	- If passed initial value, set selected segment index
+
+Update SliderComponentView:
+	- Add initializer to pass a single `valueRange` param - minimumValue = -valueRange / 2.0, max = valueRange / 2.0
+	
