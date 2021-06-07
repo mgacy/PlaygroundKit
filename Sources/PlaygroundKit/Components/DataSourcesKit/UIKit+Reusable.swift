@@ -12,24 +12,6 @@
 
 import UIKit
 
-// MARK: - View Controller
-
-extension UIViewController: Reusable {
-    public class func instance() -> Self {
-        let storyboard = UIStoryboard(name: reuseID, bundle: nil)
-        return storyboard.instantiateViewController()
-    }
-}
-
-extension UIStoryboard {
-    public func instantiateViewController<T: UIViewController>() -> T {
-        guard let viewController = self.instantiateViewController(withIdentifier: T.reuseID) as? T else {
-            fatalError("Unable to instantiate view controller: \(T.self)")
-        }
-        return viewController
-    }
-}
-
 // MARK: - Collection View
 
 extension UICollectionReusableView: Reusable {}

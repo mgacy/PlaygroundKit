@@ -8,17 +8,6 @@
 
 import UIKit
 
-// Cell Protocol
-
-// CellFactory Protocol
-public protocol CellFactory {
-    associatedtype ViewType // `ContainerView`?
-    associatedtype CellType: CellConfigurable
-
-    func cell(for model: CellType.ModelType, in view: ViewType, at indexPath: IndexPath) -> CellType
-}
-
-
 public struct CollectionViewCellFactory<CellType>: CellFactory where CellType: CellConfigurable & UICollectionViewCell {
     public typealias ViewType = UICollectionView
 
@@ -30,7 +19,6 @@ public struct CollectionViewCellFactory<CellType>: CellFactory where CellType: C
         return cell
     }
 }
-
 
 public class CollectionViewDataSource<T: CellFactory>: NSObject, UICollectionViewDataSource where T.ViewType == UICollectionView, T.CellType: UICollectionViewCell {
     public typealias Model = T.CellType.ModelType
