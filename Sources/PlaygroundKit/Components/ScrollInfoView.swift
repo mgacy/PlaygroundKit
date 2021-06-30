@@ -32,7 +32,7 @@ open class ScrollInfoView: UIView {
         //let contentWidth = stackView.intrinsicContentSize.width
         let dy = directionalLayoutMargins.top + directionalLayoutMargins.bottom
         let contentHeight = stackView.intrinsicDimensionAlongAxis
-        return CGSize(width: ScrollInfoView.noIntrinsicMetric, height: contentHeight + dy)
+        return CGSize(width: Self.noIntrinsicMetric, height: contentHeight + dy)
         //return CGSize(width: contentWidth + dx, height: contentHeight + dy)
     }
 

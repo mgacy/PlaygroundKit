@@ -35,7 +35,20 @@ extension UICollectionView {
         }
         return section
     }
+}
 
+extension UICollectionViewLayout {
+
+    public func register<T: Reusable>(viewType: T.Type) {
+        register(viewType, forDecorationViewOfKind: T.reuseID)
+    }
+}
+
+extension NSCollectionLayoutDecorationItem {
+
+    public class func background<T: Reusable>(elementType: T.Type) -> Self {
+        return background(elementKind: T.reuseID)
+    }
 }
 
 // MARK: - Table View
@@ -54,5 +67,4 @@ extension UITableView {
         }
         return cell
     }
-
 }

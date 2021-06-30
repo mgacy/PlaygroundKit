@@ -8,8 +8,10 @@
 import UIKit
 
 // MARK: - UITableView
+public typealias TableCellConfigurable = CellConfigurable & UITableViewCell
+
 public protocol TableViewDiffableDataSourceProvider {
-    associatedtype CellType: CellConfigurable & UITableViewCell
+    associatedtype CellType: TableCellConfigurable
     associatedtype SectionType: Hashable & CaseIterable
     associatedtype ItemType: Hashable
 
@@ -36,8 +38,10 @@ public extension TableViewDiffableDataSourceProvider where CellType: Reusable, C
 }
 
 // MARK: - UICollectionView
+public typealias CollectionCellConfigurable = CellConfigurable & UICollectionViewCell
+
 public protocol CollectionViewDiffableDataSourceProvider {
-    associatedtype CellType: CellConfigurable & UICollectionViewCell
+    associatedtype CellType: CollectionCellConfigurable
     associatedtype SectionType: Hashable & CaseIterable
     associatedtype ItemType: Hashable
 
