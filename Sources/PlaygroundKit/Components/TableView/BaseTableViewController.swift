@@ -8,7 +8,6 @@
 
 import UIKit
 
-/// This is a work in progress; see `Views - UITableView (Matt's iPad (2).playground` for a less ambitious, but working, version
 open class BaseTableViewController<T>: UITableViewController {
 
     // Navigation bar actions
@@ -72,7 +71,7 @@ open class BaseTableViewController<T>: UITableViewController {
     // MARK: View Configuration
 
     open func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationItem.leftBarButtonItems = [barButton1, barButton2]
         navigationItem.rightBarButtonItems = [barButton4, barButton3]
 
@@ -140,7 +139,7 @@ open class BaseTableViewController<T>: UITableViewController {
 
         // ...
 
-        tableView.deselectRow(at: indexPath, animated: true)
+        //tableView.deselectRow(at: indexPath, animated: true)
     }
 
     override open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -168,7 +167,10 @@ open class BaseTableViewController<T>: UITableViewController {
 }
 
 // MARK: - DataSource
+//open class MyDataSource<Cell: TableCellConfigurable>: NSObject, UITableViewDataSource {
 open class MyDataSource<T>: NSObject, UITableViewDataSource {
+    //public typealias Item = Cell.ModelType
+
     // TODO: initialize with ItemFactory / ItemLoader
     private var items: [T] = []
 
@@ -184,7 +186,7 @@ open class MyDataSource<T>: NSObject, UITableViewDataSource {
     // MARK: A
 
     open func objectAtIndexPath(_ indexPath: IndexPath) -> T {
-        return items[indexPath.row]
+        items[indexPath.row]
     }
 
     // MARK: Configuration
@@ -206,14 +208,14 @@ open class MyDataSource<T>: NSObject, UITableViewDataSource {
 
     // MARK: Refresh
 
-    //let refreshDelay: DispatchTimeInterval = 2.0
-    //let refreshFromCacheDelay: DispatchTimeInterval = 0.5
+    public var refreshDelay: TimeInterval = 2.0
+    public var refreshFromCacheDelay: TimeInterval = 0.5
 
     open func refresh(closure: @escaping () -> Void) {
         let newTitles = ["This is addition 1", "This is also new"]
         //let newItems = ItemFactory.makeItems(withTitles: newTitles)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + refreshDelay) {
             //var newItems = self.items
             //newItems.insert("This is addition 1", at: 1)
             //newItems.insert("This is also new" at: 3)
@@ -223,26 +225,24 @@ open class MyDataSource<T>: NSObject, UITableViewDataSource {
     }
 
     open func refreshFromCache(closure: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + refreshFromCacheDelay) {
             closure()
         }
     }
-//}
 
-// MARK: - UITableViewDataSouce
-//extension MyDataSource: UITableViewDataSource {
+    // MARK: - UITableViewDataSouce
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        items.count
     }
 
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = tableView.dequeueReusableCell(for: indexPath)
+        //let cell: BasicCell = tableView.dequeueReusableCell(for: indexPath)
+
         let item = objectAtIndexPath(indexPath)
 
-        //let cell: BasicCell = tableView.dequeueReusableCell(for: indexPath)
         //cell.configure(with: item)
-
-        let cell: UITableViewCell = tableView.dequeueReusableCell(for: indexPath)
         return cell
     }
 }
