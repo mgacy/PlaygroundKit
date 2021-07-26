@@ -63,28 +63,6 @@ open class BaseScrollViewController: BaseViewController {
 
     open func setupScrollViewConstraints() {
         //contentHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 1000.0) // ?
-
-        //let guide = view.safeAreaLayoutGuide
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            // scrollView
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // contentView
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-    }
-
-    // Alt - From Adequate.ScrollableView
-    /*
-    open func setupScrollViewConstraints() {
-        //contentHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 1000.0) // ?
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         let frameGuide = scrollView.frameLayoutGuide
@@ -103,7 +81,7 @@ open class BaseScrollViewController: BaseViewController {
             frameGuide.widthAnchor.constraint(equalTo: contentGuide.widthAnchor)
         ])
     }
-
+    /*
     open override func layoutMarginsDidChange() {
         let currentMargins = contentView.layoutMargins
         contentView.layoutMargins = UIEdgeInsets(top: currentMargins.top,
@@ -126,12 +104,12 @@ open class BaseScrollViewController: BaseViewController {
             contentHeightConstraint?.isActive = true
         }
 
+        let contentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
-            newContentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            newContentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            newContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            newContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            newContentView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            contentView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: contentGuide.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: contentGuide.bottomAnchor),
         ])
     }
 }
