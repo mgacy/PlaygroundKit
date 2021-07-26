@@ -12,6 +12,7 @@ public protocol CellFactory {
     associatedtype CellType: CellConfigurable
 
     func cell(for model: CellType.ModelType, in view: ViewType, at indexPath: IndexPath) -> CellType
+    //func cell(in view: ViewType, at indexPath: IndexPath, with model: CellType.ModelType) -> CellType
 }
 
 // TODO: add `AsyncCellFactory: CellFactory` with alternate method for cells using asynchronously configured cells
