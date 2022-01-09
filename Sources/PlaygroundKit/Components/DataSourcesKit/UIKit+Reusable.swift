@@ -77,7 +77,7 @@ extension UITableView {
     }
 
     /// Registers a class to use in creating new table header or footer views.
-    func register<T: UITableViewHeaderFooterView>(headerFooterType: T.Type) {
+    public func register<T: UITableViewHeaderFooterView>(headerFooterType: T.Type) {
         self.register(headerFooterType.self, forHeaderFooterViewReuseIdentifier: headerFooterType.reuseID)
     }
 
@@ -92,7 +92,7 @@ extension UITableView {
 
     /// Returns a reusable header or footer view.
     /// - Returns: A `UITableViewHeaderFooterView` object.
-    func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
+    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
         guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID) as? T else {
             fatalError("Unable to dequeue reusable header footer view: \(T.self)")
         }
