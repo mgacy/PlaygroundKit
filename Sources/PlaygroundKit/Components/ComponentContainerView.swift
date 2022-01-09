@@ -6,36 +6,10 @@
 //
 
 import UIKit
-/*
-// MARK: - Component View Protocol
-public protocol ComponentViewProtocol: UIView {
-    var labelSize: CGFloat { get set }
-    var labelFont UIFont { get set }
-}
-
-// MARK: - Data Source
-public protocol ComponentContainerDataSourceProtocol {
-    var componentViews: [ComponentViewProtocol] { get }
-}
-
-open class ComponentContainerDataSource {
-
-    public private(set) componentViews: [UIView]
-
-    // TODO: (optionally?) provide info about size of component views?
-
-    init(componentViews: [ComponentView]) {
-        self.componentViews = componentViews
-    }
-}
-*/
-// MARK: - View
 
 open class ComponentContainerView: UIView {
-    // TODO: replace with protocol or base UIView subclass
+    // TODO: replace with protocol
     public typealias ComponentView = UIView
-
-    //public var dataSource: ComponentViewDataSource
 
     // MARK: - Appearance
 
@@ -45,7 +19,7 @@ open class ComponentContainerView: UIView {
         let view = UIStackView(arrangedSubviews: componentViews)
         view.axis = .vertical
         view.alignment = .fill
-        view.distribution = .fillEqually // or .fill
+        view.distribution = .fill
         view.spacing = UIStackView.spacingUseSystem
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -53,14 +27,11 @@ open class ComponentContainerView: UIView {
 
     var componentViews: [ComponentView]
 
-    //public var labelSize: CGFloat { didSet { componentViews.forEach { $0.labelSize = labelSize }}
-    //public var labelFont: UIFont { didSet { componentViews.forEach { $0.labelFont = labelFont }}
-
-    //open override var backgroundColor: UIColor? {
-    //    didSet {
-    //        componentViews.forEach { $0.backgroundColor = backgroundColor }
-    //    }
-    //}
+    open override var backgroundColor: UIColor? {
+        didSet {
+            componentViews.forEach { $0.backgroundColor = backgroundColor }
+        }
+    }
 
     override public var intrinsicContentSize: CGSize {
         let dy = directionalLayoutMargins.top + directionalLayoutMargins.bottom
@@ -100,10 +71,9 @@ open class ComponentContainerView: UIView {
         ])
     }
 
-    // MARK: - B
+    // MARK: - Public
 
     public func addComponentView(_ componentView: ComponentView) {
         stackView.addSubview(componentView)
-        // ...
     }
 }
