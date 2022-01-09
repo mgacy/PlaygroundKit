@@ -67,11 +67,18 @@ extension NSCollectionLayoutDecorationItem {
 
 extension UITableViewCell: Reusable {}
 
+extension UITableViewHeaderFooterView: Reusable {}
+
 extension UITableView {
 
     /// Registers a class to use in creating new table cells.
     public func register<T: UITableViewCell>(cellType: T.Type) {
         self.register(cellType.self, forCellReuseIdentifier: cellType.reuseID)
+    }
+
+    /// Registers a class to use in creating new table header or footer views.
+    func register<T: UITableViewHeaderFooterView>(headerFooterType: T.Type) {
+        self.register(headerFooterType.self, forHeaderFooterViewReuseIdentifier: headerFooterType.reuseID)
     }
 
     /// Returns a reusable table-view cell object and adds it to the table.
@@ -81,5 +88,14 @@ extension UITableView {
             fatalError("Unable to dequeue reusable table view cell: \(T.self)")
         }
         return cell
+    }
+
+    /// Returns a reusable header or footer view.
+    /// - Returns: A `UITableViewHeaderFooterView` object.
+    func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
+        guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID) as? T else {
+            fatalError("Unable to dequeue reusable header footer view: \(T.self)")
+        }
+        return view
     }
 }
